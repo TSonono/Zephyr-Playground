@@ -105,14 +105,14 @@ void main(void)
 
     ret = gpio_pin_configure(dev,
                              DT_ALIAS_LED0_GPIOS_PIN,
-                             GPIO_OUTPUT_INIT_HIGH | GPIO_OUTPUT);
+                             DT_ALIAS_LED0_GPIOS_FLAGS | GPIO_OUTPUT);
     if (ret < 0) {
         printk("Error, could configure pin %d\r\n", DT_ALIAS_LED0_GPIOS_PIN);
     }
 
     ret = gpio_pin_configure(dev,
                              DT_ALIAS_LED1_GPIOS_PIN,
-                             GPIO_OUTPUT_INIT_HIGH | GPIO_OUTPUT);
+                             DT_ALIAS_LED1_GPIOS_FLAGS | GPIO_OUTPUT);
     if (ret < 0) {
         printk("Error, could configure pin %d\r\n", DT_ALIAS_LED0_GPIOS_PIN);
     }
