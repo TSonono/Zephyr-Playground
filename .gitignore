@@ -56,6 +56,9 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+# Misc
+*.h.dump
+
 ### CMake ###
 CMakeLists.txt.user
 CMakeCache.txt
@@ -109,8 +112,6 @@ Temporary Items
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
-
-# End of https://www.gitignore.io/api/c,macos,cmake,visualstudiocode
 
 ### VirtualEnv ###
 # Virtualenv
