@@ -32,3 +32,10 @@ Applications in this repo and their description.
 
 ### First Example App
 Two threads, one spawned during compilation and one dynamically during runtime. Two semaphores used to control which of the threads will be running. When they run, an LED representing that thread will light up and it will print a debugging message.
+
+### Second Example App
+In this example, ISR handling in Zephyr is explored.
+
+An ISR is triggered when button 1 or button 2 on the board is pressed. When this ISR is triggered, it will mock a sensor reading, and then signal to the "data processing" thread that the data is ready to process. The signaling will be done with a semaphore and the data will be put/retrieved in a stack. Further more, one thread A has higher priority than the other. Give that both threads are pre-emptable, thread A can take over while thread B is processing if button 1 shortly after button 2 is pressed (while thread B is processing data).
+
+The ISR that triggers thread A, does the (mock) sensor data measurement in the ISR code since this sensor needs time to make a measurement. The ISR that triggers thread B is a sensor that does not rely on time to get an accurate measurement. Therefore, the thread can start the trigger measuring process.
