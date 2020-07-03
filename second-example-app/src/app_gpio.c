@@ -10,6 +10,26 @@
 #include "app_gpio.h"
 
 /*======= Local Macro Definitions ===========================================*/
+
+#define FLAGS_OR_ZERO(node)						\
+	COND_CODE_1(DT_PHA_HAS_CELL(node, gpios, flags),		\
+		    (DT_GPIO_FLAGS(node, gpios)),			\
+		    (0))
+
+#define SW0_NODE	DT_ALIAS(sw0)
+#define SW1_NODE	DT_ALIAS(sw1)
+
+#if DT_NODE_HAS_STATUS(SW0_NODE, okay)
+#define SW0_GPIO_LABEL	DT_GPIO_LABEL(SW0_NODE, gpios)
+#define SW0_GPIO_PIN	DT_GPIO_PIN(SW0_NODE, gpios)
+#define SW0_GPIO_FLAGS	(GPIO_INPUT | FLAGS_OR_ZERO(SW0_NODE))
+#define SW1_GPIO_LABEL	DT_GPIO_LABEL(SW1_NODE, gpios)
+#define SW1_GPIO_PIN	DT_GPIO_PIN(SW1_NODE, gpios)
+#define SW1_GPIO_FLAGS	(GPIO_INPUT | FLAGS_OR_ZERO(SW1_NODE))
+#else
+#error "Unsupported board: sw0 devicetree alias is not defined"
+#endif
+
 /*======= Type Definitions ==================================================*/
 /*======= Local function prototypes =========================================*/
 /*======= Local variable declarations =======================================*/
@@ -33,14 +53,14 @@ void initButtonAsInterrupt(u8_t buttonNumber, gpio_callback_handler_t buttonIsr)
     char *       device;
     switch (buttonNumber) {
     case 0:
-        pin    = (gpio_pin_t)DT_ALIAS_SW0_GPIOS_PIN;
-        flags  = (gpio_flags_t)DT_ALIAS_SW0_GPIOS_FLAGS;
-        device = (char *)DT_ALIAS_SW0_GPIOS_CONTROLLER;
+        pin    = (gpio_pin_t)SW0_GPIO_PIN;
+        flags  = (gpio_flags_t)SW0_GPIO_FLAGS;
+        device = (char *)SW0_GPIO_LABEL;
         break;
     case 1:
-        pin    = (gpio_pin_t)DT_ALIAS_SW1_GPIOS_PIN;
-        flags  = (gpio_flags_t)DT_ALIAS_SW1_GPIOS_FLAGS;
-        device = (char *)DT_ALIAS_SW1_GPIOS_CONTROLLER;
+        pin    = (gpio_pin_t)SW1_GPIO_PIN;
+        flags  = (gpio_flags_t)SW1_GPIO_FLAGS;
+        device = (char *)SW1_GPIO_LABEL;
         break;
 
     default:
