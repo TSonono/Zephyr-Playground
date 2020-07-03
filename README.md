@@ -7,8 +7,6 @@ I want to learn how to use the Zephyr RTOS for IoT applications. Let's start wit
 
 ## Get Things Running
 - [Zephyr Getting Started Guide](https://docs.zephyrproject.org/latest/getting_started/index.html)
-- Clone this repo in the zephyrproject directory created if you ran `west init zephyrproject`
-- The requirements.txt file in this repo is not necessarily aligned with the on the zephyr repo. You can use the one included in the zephyr repo and then do `pip install pyrtt-viewer` (I do this in an virtual environment). The requirements.txt file in this repo includes pyrtt-viewer
 
 ## Build
 
@@ -21,11 +19,11 @@ west build -p auto -b nrf52840dk_nrf52840 first-example-app
 west flash
 ```
 
-## Debug with RTT
+## Debug with UART
 ```bash
-pyrtt-viewer -s [SEGGER_ID] -c 0
-# SEGGER_ID can be retrieved with nrfjprog --ids
+picocom -e b -b [baudrate] [device]
 ```
+Currently running with a baudrate of 115200. The device can be found using ls /dev/.
 ## Applications
 
 Applications in this repo and their description.
