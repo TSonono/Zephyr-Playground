@@ -100,7 +100,7 @@ static void helloLoop(const char *  my_name,
         gpio_pin_set(dev_led, led_pin, 1);
 
         /* wait a while, then let other thread have a turn */
-        k_msleep(SLEEPTIME);
+        k_sleep(SLEEPTIME);
         gpio_pin_set(dev_led, led_pin, 0);
         k_sem_give(other_sem);
     }
