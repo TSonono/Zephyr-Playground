@@ -96,7 +96,7 @@ void button1PressedIsr(struct device *       port,
     u8_t mockHumdity  = 30;
     u8_t mockPressure = 250;
 
-    int status;
+    int status = 0;
     status |= k_stack_push(&mockDataA, (stack_data_t)&mockTemp);
     status |= k_stack_push(&mockDataA, (stack_data_t)&mockHumdity);
     status |= k_stack_push(&mockDataA, (stack_data_t)&mockPressure);
