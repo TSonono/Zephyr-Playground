@@ -13,6 +13,23 @@
 
 /*======= Local Macro Definitions ===========================================*/
 
+#define LED0_NODE DT_ALIAS(led0)
+#define LED1_NODE DT_ALIAS(led1)
+
+#if DT_NODE_HAS_STATUS(LED0_NODE, okay) && DT_NODE_HAS_STATUS(LED1_NODE, okay)
+#define LED0	DT_GPIO_LABEL(LED0_NODE, gpios)
+#define LED1	DT_GPIO_LABEL(LED1_NODE, gpios)
+#define PIN0	DT_GPIO_PIN(LED0_NODE, gpios)
+#define PIN1	DT_GPIO_PIN(LED1_NODE, gpios)
+#if DT_PHA_HAS_CELL(LED0_NODE, gpios, flags) && DT_PHA_HAS_CELL(LED1_NODE, gpios, flags)
+#define FLAGS0	DT_GPIO_FLAGS(LED0_NODE, gpios)
+#define FLAGS1	DT_GPIO_FLAGS(LED1_NODE, gpios)
+#endif
+#else
+/* A build error here means your board isn't set up to blink an LED. */
+#error "Unsupported board: led devicetree alias is not defined"
+#endif
+
 /* size of stack area used by each thread */
 #define STACKSIZE 1024
 
@@ -66,7 +83,7 @@ static void helloLoop(const char *  my_name,
     const char *   tname;
     struct device *dev_led;
 
-    dev_led = device_get_binding(DT_ALIAS_LED0_GPIOS_CONTROLLER);
+    dev_led = device_get_binding(LED0);
 
     while (1) {
         /* take my semaphore */
@@ -97,24 +114,24 @@ void main(void)
     struct device *dev;
     int            ret;
 
-    dev = device_get_binding(DT_ALIAS_LED0_GPIOS_CONTROLLER);
+    dev = device_get_binding(LED0);
     if (dev == NULL) {
         printk("Error, could not bind device\r\n");
         return;
     }
 
     ret = gpio_pin_configure(dev,
-                             DT_ALIAS_LED0_GPIOS_PIN,
+                             PIN0,
                              GPIO_OUTPUT_HIGH);
     if (ret < 0) {
-        printk("Error, could configure pin %d\r\n", DT_ALIAS_LED0_GPIOS_PIN);
+        printk("Error, could configure pin %d\r\n", PIN0);
     }
 
     ret = gpio_pin_configure(dev,
-                             DT_ALIAS_LED1_GPIOS_PIN,
+                             PIN1,
                              GPIO_OUTPUT_HIGH);
     if (ret < 0) {
-        printk("Error, could configure pin %d\r\n", DT_ALIAS_LED0_GPIOS_PIN);
+        printk("Error, could configure pin %d\r\n", PIN0);
     }
     return;
 }
@@ -126,7 +143,7 @@ void threadB(void *dummy1, void *dummy2, void *dummy3)
     ARG_UNUSED(dummy3);
 
     /* invoke routine to ping-pong hello messages with threadA */
-    helloLoop(__func__, &threadB_sem, &threadA_sem, DT_ALIAS_LED1_GPIOS_PIN);
+    helloLoop(__func__, &threadB_sem, &threadA_sem, PIN1);
 }
 
 /* threadA is a static thread that is spawned automatically */
@@ -152,5 +169,5 @@ void threadA(void *dummy1, void *dummy2, void *dummy3)
     k_thread_name_set(tid, "thread_b");
 
     /* invoke routine to ping-pong hello messages with threadB */
-    helloLoop(__func__, &threadA_sem, &threadB_sem, DT_ALIAS_LED0_GPIOS_PIN);
+    helloLoop(__func__, &threadA_sem, &threadB_sem, PIN0);
 }
