@@ -39,7 +39,7 @@ prettytable==0.7.2
 py==1.8.1
 pycparser==2.20
 pyelftools==0.26
-Pygments==2.6.1
+Pygments==2.7.4
 pykwalify==1.7.0
 pynrfjprog==10.7.0
 pyocd==0.25.0
