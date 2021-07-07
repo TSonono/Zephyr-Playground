@@ -56,6 +56,9 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+# Misc
+*.h.dump
+
 ### CMake ###
 CMakeLists.txt.user
 CMakeCache.txt
@@ -110,8 +113,6 @@ Temporary Items
 # Ignore all local history of files
 .history
 
-# End of https://www.gitignore.io/api/c,macos,cmake,visualstudiocode
-
 ### VirtualEnv ###
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
@@ -126,7 +127,11 @@ env.bak/
 venv.bak/
 pip-selfcheck.json
 
+<<<<<<< HEAD
 # End of https://www.gitignore.io/api/virtualenv
 
 # Custom
 *.dump
+=======
+# End of https://www.gitignore.io/api/c,macos,cmake,visualstudiocode,virtualenv
+>>>>>>> Almost done with second example app
