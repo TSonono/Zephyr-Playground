@@ -27,7 +27,7 @@ intelhex==2.2.1
 intervaltree==3.0.2
 Jinja2==2.11.1
 junit2html==22
-lxml==4.5.0
+lxml==4.9.1
 MarkupSafe==1.1.1
 milksnake==0.1.5
 more-itertools==8.2.0
